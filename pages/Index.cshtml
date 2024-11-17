@@ -1,0 +1,51 @@
+﻿@page
+@model RedisSqlDemo.Pages.IndexModel
+@{
+    ViewData["Title"] = "Data Fetching Demo";
+}
+
+<h1>Data Fetching Demo</h1>
+
+<div style="display: flex; justify-content: space-between;">
+
+    <div style="flex: 1; margin-right: 10px;">
+        <button id="getSqlData" onclick="fetchSqlData()">Get SQL Data</button>
+        <div id="sqlDataFrame" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px; display: none;">
+            <h3>SQL Data Results</h3>
+            <pre id="sqlDataResults"></pre>
+        </div>
+    </div>
+
+    <div style="flex: 1; margin-left: 10px;">
+        <button id="getRedisData" onclick="fetchRedisData()">Get Redis Data</button>
+        <div id="redisDataFrame" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px; display: none;">
+            <h3>Redis Data Results</h3>
+            <pre id="redisDataResults"></pre>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    async function fetchSqlData() {
+        const response = await fetch('/api/data/sql');
+        const data = await response.json();
+        document.getElementById('sqlDataResults').textContent = JSON.stringify(data, null, 2);
+        document.getElementById('sqlDataFrame').style.display = 'block';
+    }
+
+    async function fetchRedisData() {
+        const response = await fetch('/api/data/redis');
+        const data = await response.json();
+        document.getElementById('redisDataResults').textContent = JSON.stringify(data, null, 2);
+        document.getElementById('redisDataFrame').style.display = 'block';
+    }
+
+    function clearResults() {
+        document.getElementById('sqlDataResults').textContent = '';
+        document.getElementById('redisDataResults').textContent = '';
+        document.getElementById('sqlDataFrame').style.display = 'none';
+        document.getElementById('redisDataFrame').style.display = 'none';
+    }
+</script>
