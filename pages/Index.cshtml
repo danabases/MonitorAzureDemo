@@ -29,17 +29,41 @@
 
 <script>
     async function fetchSqlData() {
-        const response = await fetch('/api/data/sql');
-        const data = await response.json();
-        document.getElementById('sqlDataResults').textContent = JSON.stringify(data, null, 2);
-        document.getElementById('sqlDataFrame').style.display = 'block';
+        // Clear previous results
+        clearResults();
+
+        try {
+            const response = await fetch('/api/data/sql');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            document.getElementById('sqlDataResults').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('sqlDataFrame').style.display = 'block';
+        } catch (error) {
+            console.error('Error fetching SQL data:', error);
+            document.getElementById('sqlDataResults').textContent = 'Error fetching data.';
+            document.getElementById('sqlDataFrame').style.display = 'block';
+        }
     }
 
     async function fetchRedisData() {
-        const response = await fetch('/api/data/redis');
-        const data = await response.json();
-        document.getElementById('redisDataResults').textContent = JSON.stringify(data, null, 2);
-        document.getElementById('redisDataFrame').style.display = 'block';
+        // Clear previous results
+        clearResults();
+
+        try {
+            const response = await fetch('/api/data/redis');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            document.getElementById('redisDataResults').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('redisDataFrame').style.display = 'block';
+        } catch (error) {
+            console.error('Error fetching Redis data:', error);
+            document.getElementById('redisDataResults').textContent = 'Error fetching data.';
+            document.getElementById('redisDataFrame').style.display = 'block';
+        }
     }
 
     function clearResults() {
