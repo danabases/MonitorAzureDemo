@@ -27,7 +27,9 @@ namespace RedisSqlDemo.Services
                 var command = new SqlCommand("exec [dbo].[sp_GetThreatIncidents] @UniqueParam", connection);
                 command.Parameters.AddWithValue("@UniqueParam", (long)DateTime.Now.Ticks);
 
-                var reader = await command.ExecuteReaderAsync();
+
+
+            var reader = await command.ExecuteReaderAsync();
                 var results = new List<SecurityIncidentLog>();
                 while (await reader.ReadAsync())
                 {
