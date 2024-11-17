@@ -10,7 +10,6 @@
 *.userosscache
 *.sln.docstates
 appsettings.*
-*.sln
 publish/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
@@ -366,4 +365,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-*.csproj
