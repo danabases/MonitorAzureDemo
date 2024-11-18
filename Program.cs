@@ -18,4 +18,9 @@ app.UseAuthorization();
 app.MapControllers(); // Map API controllers
 app.MapRazorPages(); // Map Razor Pages
 
+// Pre-load Redis data at startup
+var dataService = app.Services.GetRequiredService<DataService>();
+await dataService.PreLoadRedisDataAsync();
+
+
 app.Run();
