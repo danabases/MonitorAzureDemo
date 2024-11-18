@@ -53,6 +53,29 @@ namespace RedisSqlDemo.Services
             }
         }
 
+        public async Task PreLoadRedisDataAsync()
+        {
+            var db = _redis.GetDatabase();
+            var cachedData = await db.StringGetAsync("SecurityIncidentLogsWithThreatInfoCacheKey");
+            if (cachedData.IsNullOrEmpty)
+            {
+                // Option 1: Load data from SQL
+                var data = await GetDataFromSqlAsync();
+
+                // Option 2 (alternative): Load data from a static JSON file
+                // Uncomment this block if you want to use static data instead
+                /*
+                var defaultDataPath = Path.Combine(Directory.GetCurrentDirectory(), "DefaultSecurityIncidentLogs.json");
+                var jsonData = await File.ReadAllTextAsync(defaultDataPath);
+                var data = JsonConvert.DeserializeObject<List<SecurityIncidentLog>>(jsonData);
+                */
+
+                // Save the data to Redis with a predefined key
+                await db.StringSetAsync("SecurityIncidentLogsWithThreatInfoCacheKey", JsonConvert.SerializeObject(data));
+            }
+        }
+
+
         public async Task<List<SecurityIncidentLog>> GetDataFromRedisAsync()
         {
             var db = _redis.GetDatabase();
